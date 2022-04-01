@@ -5,8 +5,7 @@ import { MdFlightTakeoff } from 'react-icons/md'
 import api from '../../services/api'
 import './style.css'
 
-
-export default function Home( {history} ) {
+export default function Home({ history }) {
     const dispatch = useDispatch()
     const [trips, setTrips] = useState([])
 
@@ -21,8 +20,6 @@ export default function Home( {history} ) {
 
     function handleAdd(id) {
         dispatch(addReserveRequest(id))
-
-        history.push('/reservas')
     }
 
     return (

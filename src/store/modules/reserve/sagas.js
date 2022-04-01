@@ -1,13 +1,14 @@
 import { select, call, put, all, takeLatest } from 'redux-saga/effects'
 import { addReserveSuccess, updateAmountSuccess } from './actions'
-import {  toast } from 'react-toastify'
+import { toast } from 'react-toastify'
 import api from '../../../services/api'
+import history from '../../../services/history'
 
-
-
-function* addToReserve({id}){
-    const tripExists = yield select(
-        state => state.reserve.find(trip => trip.id === id) 
+console.log('teste1')
+function* addToReserve({ id }) {
+    const tripExists = yield select((state) =>
+        state.reserve.find((trip) => trip.id === id)
+        
     )
 
     const myStock = yield call(api.get, `/stock/${id}`)
@@ -17,17 +18,17 @@ function* addToReserve({id}){
     const currentStock = tripExists ? tripExists.amount : 0
 
     const amount = currentStock + 1
-
-    if(amount > stockAmount){
+    console.log('teste2')
+    if (amount > stockAmount) {
         toast.error('Quantidade máxima atingida')
         return
     }
 
-    if(tripExists){
-        
-    yield put(updateAmountSuccess(id, amount))
+    console.log('teste3')
 
-    }else{
+    if (tripExists) {
+        yield put(updateAmountSuccess(id, amount))
+    } else {
         const response = yield call(api.get, `trips/${id}`)
 
         const data = {
@@ -35,20 +36,24 @@ function* addToReserve({id}){
             amount: 1,
         }
 
-    yield put(addReserveSuccess(data))
+        console.log('teste4')
+
+        yield put(addReserveSuccess(data))
+        history.push('/reservas')
+        console.log('teste5')
+    }
 }
 
-    
-}
 
-function* updateAmount({id, amount}){
-    if(amount <= 0) return
+
+function* updateAmount({ id, amount }) {
+    if (amount <= 0) return
 
     const myStock = yield call(api.get, `/stock/${id}`)
 
     const stockAmount = myStock.data.amount
 
-    if(amount > stockAmount){
+    if (amount > stockAmount) {
         toast.error('Quantidade máxima atingida')
         return
     }
@@ -58,5 +63,7 @@ function* updateAmount({id, amount}){
 
 export default all([
     takeLatest('ADD_RESERVE_REQUEST', addToReserve),
-    takeLatest('UPDATE_RESERVE_REQUEST', updateAmount)
+    takeLatest('UPDATE_RESERVE_REQUEST', updateAmount),
 ])
+
+console.log('teste6')

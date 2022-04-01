@@ -18,6 +18,8 @@ export default function Reservas() {
     function incrementAmount(trip){
         dispatch(updateAmountRequest(trip.id, trip.amount + 1))
     }
+
+    console.log('passou aqui')
     return (
         <div>
             <h1 className="title">Você solitou {reserves.length} reservas</h1>
