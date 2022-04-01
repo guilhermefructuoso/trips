@@ -6,7 +6,7 @@ import api from '../../services/api'
 import './style.css'
 
 
-export default function Home() {
+export default function Home( {history} ) {
     const dispatch = useDispatch()
     const [trips, setTrips] = useState([])
 
@@ -21,6 +21,8 @@ export default function Home() {
 
     function handleAdd(id) {
         dispatch(addReserveRequest(id))
+
+        history.push('/reservas')
     }
 
     return (
