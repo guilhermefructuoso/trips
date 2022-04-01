@@ -5,6 +5,7 @@ import { MdFlightTakeoff } from 'react-icons/md'
 import api from '../../services/api'
 import './style.css'
 
+
 export default function Home() {
     const dispatch = useDispatch()
     const [trips, setTrips] = useState([])
